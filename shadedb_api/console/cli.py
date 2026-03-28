@@ -1,4 +1,4 @@
-from console.network.connect import shadeDB_cli
+from shadedb_api.console.network.connect import shadeDB_cli
 
 import textwrap,subprocess,json, sys
 from pathlib import Path

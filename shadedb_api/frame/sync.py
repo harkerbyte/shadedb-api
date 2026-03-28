@@ -1,5 +1,5 @@
 import requests, json
-from frame.excepts import URLEndpointMissingError, TokenMissingError, SNLMissingError, SNLContextMissingError
+from shadedb_api.frame.excepts import URLEndpointMissingError, TokenMissingError, SNLMissingError, SNLContextMissingError
 
 
 class syncFrame:
