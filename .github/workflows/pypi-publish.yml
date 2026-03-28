@@ -1,4 +1,4 @@
-name: Publish shadeDB-api to PyPI
+name: Publish Python 🐍 distribution 📦 to PyPI
 
 on:
   push:
