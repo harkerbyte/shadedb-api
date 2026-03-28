@@ -270,11 +270,14 @@ Default unique keys:
 ## CLI
 
 ```bash
-# initialize with endpoint and token
+# initialize with endpoint and token - saved as default config
 shadedb-api-init https://endpoint YOUR_TOKEN
 
-# start an interactive client / CLI
-shadedb-api
+# Re-initialize with endpoint and token - not saved
+shadedb-api https://endpoint YOUR_TOKEN
+
+# start an interactive client / CLI with saved config
+shadedb-api  
 
 # run snl queries from api cli
 [API] $/ fetch :: id :: int(12)
