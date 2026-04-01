@@ -238,10 +238,10 @@ Delete :: id :: int(17)
 
 ### Unique Fields
 
-Default unique keys:
+Default unique key:
 
 ```text
-[id, username, email, phone]
+[id]
 ```
 
 ---
