@@ -23,6 +23,8 @@ class shadeDB_cli:
             if v:
               if  "Reference error" not in v:
                 const += f"{k} : {v}\n"
+              else:
+                const += f"{k} : {"Enter: 98"}\n"
               
         return const
     

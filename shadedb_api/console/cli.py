@@ -96,7 +96,7 @@ class consoleApi:
     while True:
       entered = input("\n[\x1b[1;36mAPI\x1b[1;0m] $/ ")
       if entered.strip() == "98":
-        subprocess.run(["xdg-open", "https://chat.whatsapp.com/IhFoE3IptShAzeCBKAkZNM?mode=gi_t"])
+        subprocess.run(["xdg-open", "https://whatsapp.com/channel/0029Vb5f98Z90x2p6S1rhT0S"])
       elif entered.strip().lower() == "console":
         self.tweak_instance()
       elif entered.strip().lower() == "exit":

@@ -2,8 +2,12 @@
 > The fastest way to interact with **shadeDB** — a machine-native, semi-structured database built for real-time systems, autonomous agents, and sub-millisecond ingestion.
 
 
-[shadedb mvp 1](https://web-production-865de.up.railway.app/mvp)
-[ shadedb mvp 2 (active)](https://mvp-n2g5.onrender.com/mvp)
+[shadedb mvp (premium server trial)](https://web-production-865de.up.railway.app/mvp)
+
+[ shadedb mvp (serverless)](https://mvp-n2g5.onrender.com/mvp)
+
+[ Reach out via instagram for (premium server)](https://instagram.com/harkerbyte)
+
 
 <p align="left">
   <strong>🧠 Agent-native</strong><br>
