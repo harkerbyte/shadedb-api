@@ -2,3 +2,5 @@ build
 shadedb_api.egg-info
 **/__pycache__/
 __pycache__/
+engine/__pycache__
+tmp
