@@ -44,7 +44,7 @@ class consoleApi:
     
   def process_it(self,entered):
     
-    entered = entered.split("::",1)
+    entered = entered.split(";",1)
     if entered[0].lower() in ["insert"]:
       e = self.communicate.context_manage_cli(command = entered[0], context = entered[1])
       if isinstance(e,dict):
@@ -54,9 +54,10 @@ class consoleApi:
       else:
         print(e)
     elif entered[0].lower() in ["update"]:
-      s_part = entered[1].split("::")
-      jcd = entered[0] + "::" + s_part[:-1]
-      e = self.communicate.context_manage_cli(command = jcd, context = s_part[-1:])
+      s_part = entered[1].split(";",1)
+      jcd = entered[0] + ";" + s_part[0]
+
+      e = self.communicate.context_manage_cli(command = jcd, context = s_part[1])
       if isinstance(e,dict):
         print(f"Database latency: {e.get("dbLatency","Not provided")}\n")
         
@@ -65,7 +66,7 @@ class consoleApi:
         print(e)
     
     else:
-      jcd = entered[0] + "::" + entered[1]
+      jcd = entered[0] + ";" + entered[1]
       e = self.communicate.general_cli(command = jcd)
       if isinstance(e, dict):
         print(f"Database latency: {e.get("dbLatency","Not provided")}\n")
@@ -94,16 +95,20 @@ class consoleApi:
     
     
     while True:
-      entered = input("\n[\x1b[1;36mAPI\x1b[1;0m] $/ ")
-      if entered.strip() == "98":
-        subprocess.run(["xdg-open", "https://whatsapp.com/channel/0029Vb5f98Z90x2p6S1rhT0S"])
-      elif entered.strip().lower() == "console":
-        self.tweak_instance()
-      elif entered.strip().lower() == "exit":
-        return
-      else:
-        self.process_it(entered)
-      
+      try:
+        entered = input("\n[\x1b[1;36mAPI\x1b[1;0m] $/ ")
+        if entered.strip() == "98":
+          subprocess.run(["xdg-open", "https://whatsapp.com/channel/0029Vb5f98Z90x2p6S1rhT0S"])
+        elif entered.strip().lower() == "console":
+          self.tweak_instance()
+        elif entered.strip().lower() == "exit":
+          return
+        else:
+          self.process_it(entered)
+      except IndexError:
+        pass
+      except Exception as e:
+        print(e)
       
   def tweak_instance(self):
     self.db_name = self.communicate.db_name
@@ -128,7 +133,7 @@ class consoleApi:
                 if part_.strip() == "volume":
                   print(f"{self.communicate.db_stat_volume_cli()}")
               
-                if "page" in part_.strip():
+                if "limit" in part_.strip():
                   try:
                     cmd, paged = part_.split("::", 1)
                     print(f"\x1b[1;37m{self.communicate.db_pagination_cli(paging = paged)}\x1b[1;0m")
@@ -144,7 +149,7 @@ class consoleApi:
                 
                   except (TypeError , ValueError):
                     print(f"{self.communicate.db_uniques_cli()}")
-              
+                """
                 if "cache" in part_.strip():
                   try:
                     cmd, status = part_.split("::",1)
@@ -153,7 +158,7 @@ class consoleApi:
                     
                   except (TypeError,ValueError):
                     print("\x1b[1;33mConsole: missing delimiter cache :: activate / deactivate \x1b[1;0m")
-                    
+                """
                 if part_.strip() == "terminate":
                   stat = self.communicate.db_terminate_cli()
                   if "Deleted" in stat:
@@ -165,7 +170,7 @@ class consoleApi:
               elif part.strip() == "snl":
                 self.process_it(part_)
               
-            except (TypeError, ValueError):
+            except (TypeError, ValueError,IndexError):
               #print("\x1b[1;33mConsole: delimiter :: appears to be missing\x1b[1;0m")
               pass
         

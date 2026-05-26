@@ -2,7 +2,7 @@
 > The fastest way to interact with **shadeDB** — a machine-native, semi-structured database built for real-time systems, autonomous agents, and sub-millisecond ingestion.
 
 
-[shadedb mvp (premium server trial)](https://web-production-865de.up.railway.app/mvp)
+[shadedb mvp (premium server trial)](https://mvp-production-4a81.up.railway.app/mvp)
 
 [ shadedb mvp (serverless)](https://mvp-n2g5.onrender.com/mvp)
 
@@ -125,7 +125,7 @@ Update (Full Overwrite)
 
 ```python
 result = db.snlComplexQuery(
-    command="update :: id :: int(1)",
+    command="update;id::int(1)",
     context={"username": "zeus", "age": 56, "email": "zeus@mail.com"}
 )
 print(result)
@@ -134,7 +134,7 @@ print(result)
 Query (SNL)
 
 ```python
-result = db.snlQuery("Fetch :: id :: int(1)")
+result = db.snlQuery("Fetch;id::int(1)")
 print(result)
 ```
 
@@ -154,23 +154,23 @@ Below are common SNL patterns and examples.
 Direct record retrieval via indexed fields.
 
 ```snl
-Fetch :: username :: sherifdeen
+Fetch;username::sherifdeen
 ```
 
 Record comparison/verification 
 ```snl
-Fetch :: username :: sherifdeen :: verify :: field :: value
+Fetch;username::sherifdeen;verify(field='value')
 ```
 
 Selective fields
 
 ```snl
-Fetch :: username :: sherifdeen :: get :: username,role
+Fetch;username::sherifdeen;get(username,role)
 ```
 
 Atomic update
 ```snl 
-Fetch :: username :: sherifdeen :: update :: age :: int(21)
+Fetch;username::sherifdeen;update(age='int(21)')
 ```
 
 ### Where (Filtering)
@@ -178,7 +178,7 @@ Fetch :: username :: sherifdeen :: update :: age :: int(21)
 Query non-unique fields.
 
 ```snl
-Where :: gender :: male :: get :: username,role
+Where;gender::male;get(username,role)
 ```
 
 ### Pagination & Ordering
@@ -192,7 +192,7 @@ Modifiers:
 Example:
 
 ```snl
-Where :: status :: active :: page(1,50) :: descend
+Where;status::active;start 1, limit 50;order(descend)
 ```
 
 ### Insert / Update / Lifecycle
@@ -200,19 +200,19 @@ Where :: status :: active :: page(1,50) :: descend
 Insert — requires a valid JSON string. No overwrites by default.
 
 ```snl
-Insert :: jsonString({ "username":"admin", "id":56 })
+Insert;jsonString({ "username":"admin", "id":56 })
 ```
 
 Atomic field update:
 
 ```snl
-Fetch :: username :: sherifdeen :: update :: age :: int(43)
+Fetch;username::sherifdeen;update(age='int(43)')
 ```
 
 Full record overwrite:
 
 ```snl
-Update :: username :: sherifdeen :: jsonString({ "username":"shade", "role":"admin" })
+Update;username::sherifdeen;jsonString({ "username":"shade", "role":"admin" })
 ```
 
 Data lifecycle commands:
@@ -220,19 +220,19 @@ Data lifecycle commands:
 - Fold (soft delete, reversible)
 
 ```snl
-Fold :: id :: int(17)
+Fold;id::int(17)
 ```
 
 - Unfold (restore)
 
 ```snl
-Unfold :: id :: int(17)
+Unfold;id::int(17)
 ```
 
 - Delete (permanent, storage reclaimed during compaction)
 
 ```snl
-Delete :: id :: int(17)
+Delete;id::int(17)
 ```
 ⚠️Note : Fold and unfold are unavailable in mvp version.
 
@@ -285,7 +285,7 @@ shadedb-api https://endpoint YOUR_TOKEN
 shadedb-api  
 
 # run snl queries from api cli
-[API] $/ fetch :: id :: int(12)
+[API] $/ fetch;id::int(12)
 
 # navigate to console for robust options
 [API] $/ console
@@ -299,7 +299,7 @@ CONSOLE $/ name ::mydb
 
 # retrieve your database information
 mydb $/ info
-{'Default pagination': [1, 15], 'Name': 'mydb', 'Total size': '0.000000 / 2.0MB', 'Unique keys': ['id'], 'Use cache': True}
+{'Default pagination': [1, 15], 'Name': 'mydb', 'Total size': '0.000000 / 2.0MB', 'Unique keys': ['id']}
 
 # check your database storage size
 mydb $/ stat :: volume
@@ -314,33 +314,26 @@ mydb $/ stat ::unique ::username,email,phone number
 {'message': "Unique keys updated : ['username', 'email', 'phone number', 'id']", 'success': True}
 
 # modify default page size during filter queries
-mydb $/ stat :: page :: 1,30
-[server ~ console]: {'message': 'Paged resized'}
+mydb $/ stat :: limit :: 50
+[server ~ console]: {'message': 'Limit changed'}
 
 # insert to your database from console (snl) 
-mydb $/ snl :: insert :: {"username":"shade","email":"test@gmail.com"}
+mydb $/ snl :: insert; {"username":"shade","email":"test@gmail.com"}
 Database latency: 0.0037282
 
 {'email': 'test@gmail.com', 'id': 1, 'username': 'shade'}
 
 # fetch from your database from console (snl
-mydb $/ snl :: fetch :: id :: int(1)
+mydb $/ snl :: fetch;id::int(1)
 Database latency: 0.0008728
 
 {'email': 'test@gmail.com', 'id': 1, 'username': 'shade'}
 
 # update to your database from console (snl)
-mydb $/ snl :: update :: id :: int(1) :: {"username":"sherifdeen","email":"test2@gmail.com"}
+mydb $/ snl :: update;id::int(1); {"username":"sherifdeen","email":"test2@gmail.com"}
 Database latency: 0.0017347
 
 {'email': 'test2@gmail.com', 'id': 1, 'username': 'sherifdeen'}
-# deactivate your database cache system
-mydb $/ stat :: cache :: deactivate
-{'message': 'cache deactivated', 'success': True}
-
-# activate your database cache system
-mydb $/ stat :: cache :: activate
-{'message': 'cache activated', 'success': True}
 
 # delete your remote database instance
 mydb $/ stat :: terminate
@@ -375,7 +368,7 @@ from shadedb_api.frame.excepts import URLEndpointMissingError, TokenMissingError
 
 
 try:
-    db.snlQuery("fetch :: id :: int(23)")
+    db.snlQuery("fetch;id::int(23)")
 except TokenMissingError as e:
     print(f"shadeDB error: {e}")
 ```

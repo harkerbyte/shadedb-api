@@ -101,8 +101,7 @@ class shadeDB_cli:
   
   def db_pagination_cli(self, paging:str=None):
     try:
-      start, finish = paging.split(",",1)
-      combp = [int(start),int(finish)]
+      combp = int(paging)
       config = {"type" : "pagination",  "pageSize" : combp}
       config.update(self.authenticator())
       
@@ -113,8 +112,8 @@ class shadeDB_cli:
       return f"[server ~ console]: Status code {re.status_code}"
       
         
-    except (TypeError,ValueError):
-      return f"Console: Missing delimiter `,`"
+    except (TypeError,ValueError,Exception) as e:
+      return f"Console: error = {e}"
   
   def db_uniques_cli(self):
     config = {"type" : "unique-get"}
@@ -142,9 +141,14 @@ class shadeDB_cli:
     
     re = requests.post(self.url, json = config, timeout = 5)
     if re.status_code == 200:
-      return re.json()
+      redict = dict()
+      for k,v in re.json().items():
+        if "Use cache" not in k:
+          redict[k] = v
+      
+      return redict
     return f"[server ~ console]: Status code {re.status_code}"
-  
+  """
   def db_cache_cli(self,set_to:str=None):
     if set_to:
       config = {"type" : "cache", "setCache" : set_to.lower()}
@@ -155,7 +159,7 @@ class shadeDB_cli:
         return re.json()
         
       return f"[server ~ console]: Status code {re.status_code}"
-  
+  """
   def db_terminate_cli(self):
     config = {"type" : "terminate"}
     config.update(self.authenticator())
