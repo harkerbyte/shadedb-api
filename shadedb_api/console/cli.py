@@ -104,7 +104,7 @@ class consoleApi:
         elif entered.strip().lower() == "exit":
           return
         else:
-          self.process_it(entered)
+          self.process_it(entered.strip("\n"))
       except IndexError:
         pass
       except Exception as e:
@@ -168,7 +168,7 @@ class consoleApi:
                   print(stat)
                   
               elif part.strip() == "snl":
-                self.process_it(part_)
+                self.process_it(part_.strip("\n"))
               
             except (TypeError, ValueError,IndexError):
               #print("\x1b[1;33mConsole: delimiter :: appears to be missing\x1b[1;0m")

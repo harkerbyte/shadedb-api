@@ -102,8 +102,7 @@ from shadedb_api.frame.sync import syncFrame
 db = syncFrame(
     endpoint="https://your-endpoint",
     token="your-db-token",
-    inspection=True,
-    query_timeout=60
+    query_timeout=5
 )
 ```
 
@@ -142,7 +141,7 @@ print(result)
 
 ## Structured Native Language (SNL)
 
-SNL is a delimiter-based command language designed for:
+SNL is the default command language designed for:
 - ⚡ Fast parsing
 - 🔐 Safer execution
 - 🧠 Machine-native interaction
@@ -185,7 +184,7 @@ Where;gender::male;get(username,role)
 
 Modifiers:
 
-- page(x,y) — slice results from index X to Y
+- start X, limit Y — slice results from index X to Y
 - ascend — sort ascending
 - descend — sort descending
 

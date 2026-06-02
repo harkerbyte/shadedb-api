@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="shadedb-api",
-    version="0.4.9",
+    version="0.5.9",
     description="[MVP] The official, high-performance Python client for ShadeDB cloud instances. ShadeDB provides a streamlined, developer-first approach to cloud data management. This library is designed to be the permanent interface for ShadeDB, ensuring a seamless transition from development to full-scale production.",
     author="Shade",
     author_email="adesolasherifdeen3@gmail.com",
