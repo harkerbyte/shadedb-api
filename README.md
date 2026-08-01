@@ -151,7 +151,7 @@ from shadedb_api.frame.sync import syncFrame
 db = syncFrame(
     endpoint="https://your_database_endpoint",
     connection_token="YOUR_CONNECTION_TOKEN",
-    cluster_token: str = YOUR_CLUSTER_TOKEN,
+    cluster_token="YOUR_CLUSTER_TOKEN",
     inspection=False,
     query_timeout=0.5 
 )
