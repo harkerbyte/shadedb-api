@@ -2,8 +2,8 @@ from setuptools import setup, find_packages
 
 setup(
     name="shadedb-api",
-    version="0.5.9",
-    description="[MVP] The official, high-performance Python client for ShadeDB cloud instances. ShadeDB provides a streamlined, developer-first approach to cloud data management. This library is designed to be the permanent interface for ShadeDB, ensuring a seamless transition from development to full-scale production.",
+    version="1.7.12",
+    description="[BETA] The official, high-performance Python client for ShadeDB cloud instances. ShadeDB provides a streamlined, developer-first approach to cloud data management. This library is designed to be the permanent interface for ShadeDB, ensuring a seamless transition from development to full-scale production.",
     author="Shade",
     author_email="adesolasherifdeen3@gmail.com",
     packages=find_packages(),
@@ -14,11 +14,11 @@ setup(
     entry_points={
         "console_scripts": [
             "shadedb-api-init=shadedb_api.console.__init__:__saver__",
-            "shadedb-api=shadedb_api.console.cli:__main__",
+            "shadedb-api=shadedb_api.console.cli:main",
         ]
     },
     include_package_data=True,
-    python_requires='>=3.11',
+    python_requires='>=3.10',
     license="GPL-3.0",
     classifiers=[
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",

@@ -1,422 +1,300 @@
+# shadeDB
 
-> The fastest way to interact with **shadeDB** — a machine-native, semi-structured database built for real-time systems, autonomous agents, and sub-millisecond ingestion.
-
-
-[shadedb mvp (premium server trial)](https://mvp-production-4a81.up.railway.app/mvp)
-
-[ shadedb mvp (serverless)](https://mvp-n2g5.onrender.com/mvp)
-
-[ Reach out via instagram for (premium server)](https://instagram.com/harkerbyte)
-
-
-<p align="left">
-  <strong>🧠 Agent-native</strong><br>
-  <strong>📡 Ultra-low latency</strong><br>
-  <strong>🧩 Minimal & composable</strong><br>
-  <strong>⚙️ Sync execution model</strong><br>
-  <strong>🐧 Structured Native Language (SNL)</strong>
+<p align="center">
+  <img src="https://img.shields.io/pypi/v/shadedb-api?style=flat-square&logo=pypi&logoColor=white" alt="PyPI Version" />
+  <img src="https://img.shields.io/pepy/dt/shadedb-api?style=flat-square&label=Downloads" alt="Downloads" />
+  <img src="https://img.shields.io/badge/Latency-Millisecond-00c853?style=flat-square&logo=lightning&logoColor=white" alt="Latency" />
+  <img src="https://img.shields.io/badge/Platform-Linux%20%7C%20macOS%20%7C%20Windows%20%7C%20Android-5865F2?style=flat-square" alt="Platform" />
+  <img src="https://img.shields.io/pypi/l/shadedb-api?style=flat-square" alt="License" />
 </p>
 
-![PyPI - Version](https://img.shields.io/pypi/v/shadedb-api?color=blue&label=PyPI)
-[![PyPI Downloads](https://static.pepy.tech/personalized-badge/shadedb-api?period=total&units=INTERNATIONAL_SYSTEM&left_color=BLACK&right_color=BLUE&left_text=downloads)](https://pepy.tech/projects/shadedb-api)
-![Platform](https://img.shields.io/badge/platform-linux%20%7C%20macos%20%7C%20windows%20%7C%20android-lightgrey)
-![License](https://img.shields.io/pypi/l/shadedb-api?color=yellow)
-<a href = "https://facebook.com/harkerbyte">![Facebook](https://img.shields.io/badge/Facebook-%231877F2.svg?style=flat&logo=Facebook&logoColor=white)</a>
-<a href ="https://youtube.com/@harkerbyte" >![YouTube](https://img.shields.io/badge/YouTube-%23FF0000.svg?style=flat&logo=YouTube&logoColor=white)</a>
-<a href="https://whatsapp.com/channel/0029Vb5f98Z90x2p6S1rhT0S">![WhatsApp](https://img.shields.io/badge/WhatsApp-25D366?style=flat&logo=whatsapp&logoColor=white)</a>
-<a href="https://instagram.com/harkerbyte" >
-![Instagram](https://img.shields.io/badge/Instagram-E4405F?style=flat&amp;logo=instagram&amp;logoColor=white) </a>
+<p align="center">
+  <strong>The machine-native, semi-structured database built for autonomous agents, real-time pipelines, and sub-millisecond ingestion.</strong>
+</p>
 
+<p align="center">
+  <a href="https://shadedb-production.up.railway.app"><b>Premium Server</b></a> •
+  <a href="mailto:adesolasherifdeen3@gmail.com"><b>Contact / Support</b></a>
+</p>
 
----
-
-## Table of contents
-
-- [Why shadeDB?](#why-shadedb)
-- [What is `shadedb-api`?](#what-is-shadedb-api)
-- [Installation](#installation)
-- [30‑Second Quickstart](#30-second-quickstart)
-- [Basic Usage](#basic-usage)
-  - [Insert](#insert)
-  - [Update (Full Overwrite)](#update-full-overwrite)
-  - [Query (SNL)](#query-snl)
-- [Structured Native Language (SNL)](#structured-native-language-snl)
-  - [Fetch](#fetch)
-  - [Where (Filtering)](#where-filtering)
-  - [Pagination & Ordering](#pagination--ordering)
-  - [Insert / Update / Lifecycle](#insert--update--lifecycle)
-  - [Unique Fields](#unique-fields)
-- [Architecture](#architecture)
-- [Module Overview](#module-overview)
-- [CLI](#cli)
-- [Configuration](#configuration)
-- [Error Handling](#error-handling)
-- [Performance Philosophy](#performance-philosophy)
-- [Use Cases](#use-cases)
-- [Requirements](#requirements)
-- [Contributing](#contributing)
-- [License](#license)
-- [Vision](#vision)
----
-
-## Why shadeDB?
-
-Traditional databases were built for **humans**.  
-shadeDB is built for **machines**.
-
-Modern systems — AI agents, real-time pipelines, autonomous services — require:
-- deterministic execution  
-- minimal parsing overhead  
-- high-frequency ingestion  
-- predictable latency  
-
-shadeDB introduces a **command-based execution model** optimized for speed, not syntax.
+<p align="center">
+  <a href="https://facebook.com/harkerbyte"><img src="https://img.shields.io/badge/Facebook-%231877F2.svg?style=flat-square&logo=Facebook&logoColor=white" alt="Facebook"/></a>
+  <a href="https://youtube.com/@harkerbyte"><img src="https://img.shields.io/badge/YouTube-%23FF0000.svg?style=flat-square&logo=YouTube&logoColor=white" alt="YouTube"/></a>
+  <a href="https://whatsapp.com/channel/0029Vb5f98Z90x2p6S1rhT0S"><img src="https://img.shields.io/badge/WhatsApp-25D366?style=flat-square&logo=whatsapp&logoColor=white" alt="WhatsApp"/></a>
+  <a href="https://instagram.com/harkerbyte"><img src="https://img.shields.io/badge/Instagram-E4405F?style=flat-square&logo=instagram&logoColor=white" alt="Instagram"/></a>
+</p>
 
 ---
 
-## What is `shadedb-api`?
+## Key Pillars
 
-`shadedb-api` is a **synchronous subcommunicator** between your application and a remote shadeDB instance.
-
-It is designed to:
-- relay commands efficiently  
-- minimize transport overhead  
-- preserve execution determinism  
-- integrate cleanly into production systems  
+* **Machine-Native** — Designed for AI agents and automated services, removing human-centric query overhead.
+*  **Millisecond Execution** — Direct command-dispatch architecture built for extreme performance.
+*  **Structured Native Language (SNL)** — An ultra-fast, command-based execution layer that drastically reduces parsing time.
+*  **Deterministic Execution** — Predictable latency, sync execution models, and zero unexpected overhead.
+*  **Minimal & Composable** — Zero bloat, low allocation footprints, and dead-simple multi-platform setup.
 
 ---
 
-## Installation
+##  Quick Links & Navigation
 
+- [Why shadeDB?](#-why-shadedb)
+- [What is `shadedb-api`?](#-what-is-shadedb-api)
+- [Installation](#-installation)
+- [Connecting to a Partition Cluster](#-connecting-to-a-partition-cluster)
+- [30-Second Quickstart](#-30-second-quickstart)
+- [Basic Usage](#-basic-usage)
+- [Structured Native Language (SNL)](#-structured-native-language-snl)
+  - [Fetch Operations](#fetch)
+  - [Where & Filtering](#where-filtering)
+  - [Pagination & Sorting](#pagination--ordering)
+  - [Data Lifecycle & Mutexes](#insert--update--lifecycle)
+- [CLI Reference](#-cli)
+- [Architecture & Error Handling](#-error-handling)
+- [Vision](#-vision)
+
+---
+
+##  Why shadeDB?
+
+Traditional databases were built for human queries, complex ORMs, and verbose text parsing. 
+
+**shadeDB flips the script.** Autonomous AI agents, high-frequency execution engines, and real-time event streams don't need pretty syntax — they need **pure velocity, low memory footprints, and deterministic responses**. 
+
+shadeDB uses **Structured Native Language (SNL)** to bypass heavy parsing cycles, yielding near-instant operations across cloud, edge, and embedded runtime environments.
+
+---
+
+##  What is `shadedb-api`?
+
+`shadedb-api` is the official **synchronous subcommunicator** layer interfacing your Python environment directly with remote shadeDB instances.
+
+```text
+┌────────────────────────┐      Direct Command Pipeline       ┌────────────────────────┐
+│  Application / Agent   │ ─────────────────────────────────> │   shadedb-api Client   │
+└────────────────────────┘                                    └────────────────────────┘
+                                                                          │
+                                                                   Sync Network Shift
+                                                                          │
+                                                                          ▼
+                                                              ┌────────────────────────┐
+                                                              │ Remote shadeDB Engine  │
+                                                              └────────────────────────┘
+
+```
+##  Installation
 ```bash
 pip install shadedb-api
+
 ```
+##  Connecting to a Partition Cluster
 
----
+Before using `shadedb-api`, obtain the following credentials from your shadeDB dashboard:
 
-## 30‑Second Quickstart
+- **Partition Endpoint** – The unique endpoint assigned to your partition.
+- **Connection Token** – Authenticates your client.
+- **Cluster Token** – Grants access to the target partition cluster.
 
-```python
-from shadedb_api.frame.sync import syncFrame
+> **Keep both tokens secret.** Never expose them in public repositories or client-side applications.
 
-db = syncFrame(
-    endpoint="https://your-endpoint",
-    token="your-db-token",
-    query_timeout=5
-)
+### Temporary Connection
+
+To connect without saving the configuration:
+
+```bash
+shadedb-api CONNECTION_ENDPOINT CONNECTION_TOKEN CLUSTER_TOKEN
 ```
-
----
-
-## Usage
-
-Insert
-
-```python
-result = db.snlComplexQuery(
-    command="insert",
-    context={"username": "shade", "age": 12}
-)
-print(result)
-```
-
-Update (Full Overwrite)
-
-```python
-result = db.snlComplexQuery(
-    command="update;id::int(1)",
-    context={"username": "zeus", "age": 56, "email": "zeus@mail.com"}
-)
-print(result)
-```
-
-Query (SNL)
-
-```python
-result = db.snlQuery("Fetch;id::int(1)")
-print(result)
-```
-
----
-
-## Structured Native Language (SNL)
-
-SNL is the default command language designed for:
-- ⚡ Fast parsing
-- 🔐 Safer execution
-- 🧠 Machine-native interaction
-
-Below are common SNL patterns and examples.
-
-### Fetch
-
-Direct record retrieval via indexed fields.
-
-```snl
-Fetch;username::sherifdeen
-```
-
-Record comparison/verification 
-```snl
-Fetch;username::sherifdeen;verify(field='value')
-```
-
-Selective fields
-
-```snl
-Fetch;username::sherifdeen;get(username,role)
-```
-
-Atomic update
-```snl 
-Fetch;username::sherifdeen;update(age='int(21)')
-```
-
-### Where (Filtering)
-
-Query non-unique fields.
-
-```snl
-Where;gender::male;get(username,role)
-```
-
-### Pagination & Ordering
-
-Modifiers:
-
-- start X, limit Y — slice results from index X to Y
-- ascend — sort ascending
-- descend — sort descending
 
 Example:
 
-```snl
-Where;status::active;start 1, limit 50;order(descend)
+```bash
+shadedb-api http://host.com/connect/sdb7f585246acf1480b9caac05f811c3 
+8da846a452f13d1d4cf4ddfac656a115 
+8c2ff6b8c408f68
 ```
 
-### Insert / Update / Lifecycle
+The connection is valid only for the current session. You'll need to provide the credentials again the next time you connect.
 
-Insert — requires a valid JSON string. No overwrites by default.
+### Persistent Initialization
 
-```snl
-Insert;jsonString({ "username":"admin", "id":56 })
-```
-
-Atomic field update:
-
-```snl
-Fetch;username::sherifdeen;update(age='int(43)')
-```
-
-Full record overwrite:
-
-```snl
-Update;username::sherifdeen;jsonString({ "username":"shade", "role":"admin" })
-```
-
-Data lifecycle commands:
-
-- Fold (soft delete, reversible)
-
-```snl
-Fold;id::int(17)
-```
-
-- Unfold (restore)
-
-```snl
-Unfold;id::int(17)
-```
-
-- Delete (permanent, storage reclaimed during compaction)
-
-```snl
-Delete;id::int(17)
-```
-⚠️Note : Fold and unfold are unavailable in mvp version.
-
-### Unique Fields
-
-Default unique key:
-
-```text
-[id]
-```
-
----
-
-## Architecture
-
-```text
-[ Application ]
-       │
-       ▼
-[ shadedb-api (Sync Layer) ]
-       │
-       ▼
-[ Network Transport ]
-       │
-       ▼
-[ Remote shadeDB Instance ]
-```
-
----
-
-## Module Overview
-
-- shadedb_api.frame.sync
-  - Core execution engine: synchronous query dispatch, transport coordination, response handling
-- shadedb_api.frame.excepts
-  - Custom exception system: structured errors, predictable failure modes, debugging clarity
-
----
-
-## CLI
+To save the connection details for future sessions:
 
 ```bash
-# initialize with endpoint and token - saved as default config
-shadedb-api-init https://endpoint YOUR_TOKEN
-
-# Re-initialize with endpoint and token - not saved
-shadedb-api https://endpoint YOUR_TOKEN
-
-# start an interactive client / CLI with saved config
-shadedb-api  
-
-# run snl queries from api cli
-[API] $/ fetch;id::int(12)
-
-# navigate to console for robust options
-[API] $/ console
-
-# navigated to console 
-CONSOLE $/ 
-
-# change database name 
-CONSOLE $/ name ::mydb
-{'database name': 'mydb', 'message': 'database name changed', 'success': True}
-
-# retrieve your database information
-mydb $/ info
-{'Default pagination': [1, 15], 'Name': 'mydb', 'Total size': '0.000000 / 2.0MB', 'Unique keys': ['id']}
-
-# check your database storage size
-mydb $/ stat :: volume
-0.000000 / 2.0MB
-
-# check your database unique fields
-mydb $/ stat :: unique
-[server ~ console]: {'unique keys': ['id']}
-
-# modify your database unique fields
-mydb $/ stat ::unique ::username,email,phone number
-{'message': "Unique keys updated : ['username', 'email', 'phone number', 'id']", 'success': True}
-
-# modify default page size during filter queries
-mydb $/ stat :: limit :: 50
-[server ~ console]: {'message': 'Limit changed'}
-
-# insert to your database from console (snl) 
-mydb $/ snl :: insert; {"username":"shade","email":"test@gmail.com"}
-Database latency: 0.0037282
-
-{'email': 'test@gmail.com', 'id': 1, 'username': 'shade'}
-
-# fetch from your database from console (snl
-mydb $/ snl :: fetch;id::int(1)
-Database latency: 0.0008728
-
-{'email': 'test@gmail.com', 'id': 1, 'username': 'shade'}
-
-# update to your database from console (snl)
-mydb $/ snl :: update;id::int(1); {"username":"sherifdeen","email":"test2@gmail.com"}
-Database latency: 0.0017347
-
-{'email': 'test2@gmail.com', 'id': 1, 'username': 'sherifdeen'}
-
-# delete your remote database instance
-mydb $/ stat :: terminate
-{'message': 'Deleted'}
-
-# close session from console
-mydb $/ exit 2
+shadedb-api-init CONNECTION_ENDPOINT CONNECTION_TOKEN CLUSTER_TOKEN
 ```
----
 
-## Configuration
+Example:
 
-Example programmatic configuration:
+```bash
+shadedb-api-init http://host.com/connect/sdb7f585246acf1480b9caac05f811c3 
+8da846a452f13d1d4cf4ddfac656a115 
+8c2ff6b8c408f68
+```
 
+This stores the endpoint and authentication tokens locally.
+
+### Reconnecting
+
+After initialization, simply run:
+
+```bash
+shadedb-api
+```
+
+The client automatically loads the previously saved connection details and opens an interactive session.
+
+##  30-Second Quickstart
 ```python
+from shadedb_api.frame.sync import syncFrame
+
+# Initialize the synchronized DB engine
 db = syncFrame(
-    endpoint="https://your-endpoint",
-    token="your-token",
-    inspection=True,
-    query_timeout=60
+    endpoint="https://your_database_endpoint",
+    connection_token="YOUR_CONNECTION_TOKEN",
+    inspection=False,
+    query_timeout=0.5
 )
+
 ```
-
----
-
-## Error Handling
-
-Use the provided exception types to catch and inspect errors:
-
+##  Basic Usage
+### Insert Record
 ```python
-from shadedb_api.frame.excepts import URLEndpointMissingError, TokenMissingError, SNLMissingError, SNLContextMissingError
+result = db.snlComplexQuery(
+    command="Insert",
+    context={"username": "shade", "age": 12}
+)
+print(result)
 
+```
+### Full Overwrite
+```python
+result = db.snlComplexQuery(
+    command="Overwrite;id::int(1)",
+    context={"username": "zeus", "age": 56, "email": "zeus@mail.com"}
+)
+print(result)
+
+```
+### Direct String Query
+```python
+result = db.snlQuery("Fetch;id::int(1)")
+print(result)
+
+```
+##  Structured Native Language (SNL)
+SNL is shadeDB’s core execution dialect. It reduces syntax parsing to simple instruction.
+### Fetch
+Retrieve records instantly via indexed fields:
+```snl
+Fetch;username::sherifdeen
+
+```
+Verify field values directly on fetch:
+```snl
+Fetch;username::sherifdeen;verify(field='value')
+
+```
+Select or exclude specific fields:
+```snl
+Fetch;username::sherifdeen;get(username,role)
+Fetch;username::sherifdeen;exclude(password,auth_token)
+
+```
+Atomic update on target key:
+```snl
+Fetch;username::sherifdeen;update(age='int(21)');
+Fetch;username::sherifdeen;strict(age='int(21)');
+
+```
+### Where (Filtering)
+Filter non-unique fields with precision:
+```snl
+Where;gender::male;get(username,role)
+Where;gender::male;exclude(password,auth_token)
+
+```
+### Pagination & Ordering
+Fine-tune record sets without heavy query wrappers:
+ * start X, limit Y — Offset and page limits
+ * order(ascend) — Sort ascending
+ * order(descend) — Sort descending
+ * order(random) — Shuffle returned records
+```snl
+Where;status::active;start 1, limit 50;order(descend);
+
+```
+### Insert / Update / Lifecycle
+```snl
+# Insert record (JSON payload required)
+Insert;jsonString({ "username":"admin", "id":56 });
+
+# Atomic Field Update
+Fetch;username::sherifdeen;update(age='int(43)');
+
+# Full Record Overwrite
+Overwrite;username::sherifdeen;jsonString({ "username":"shade", "role":"admin" });
+
+```
+#### Lifecycle Controls
+```snl
+Freeze;id::int(17);     # Soft delete (Reversible)
+Unfreeze;id::int(17);   # Restore soft-deleted record
+Delete;id::int(17);     # Hard delete (Storage reclaimed on compaction)
+
+```
+##  Interactive CLI
+shadeDB provides a fully functional shell for interactive session management, telemetry, and quick debugging.
+```bash
+# Initialize persistent configuration
+shadedb-api-init [https://your-endpoint.com](https://your-endpoint.com) (connection_token) (cluster_token)
+
+# Launch interactive CLI session
+shadedb-api
+
+```
+### Session Example
+```text
+
+Active
+
+
+[sdb4e74facf8711447b9e33e6dc83a07] >> fetch;id::int(2)
+{'id': 2, 'username': 'sherifdeen'}
+[sdb4e74facf8711447b9e33e6dc83a07] >> insert;{"username":"john","age":26,"account_type":"user","disabled":false}
+{'account_type': 'user', 'age': 26, 'disabled': False, 'id': 3, 'username': 'john'}
+[sdb4e74facf8711447b9e33e6dc83a07] >> fetch;username::john;exclude(account_type);
+{'age': 26, 'disabled': False, 'id': 3, 'username': 'john'}
+[sdb4e74facf8711447b9e33e6dc83a07] >>*;
+[{'id': 1, 'username': 'shade'}, {'id': 2, 'username': 'sherifdeen'}]
+[sdb4e74facf8711447b9e33e6dc83a07] >> exit
+Exiting shadedb-api Console.
+
+```
+##  Error Handling
+Catch predictable exceptions safely with built-in error modules:
+```python
+from shadedb_api.frame.excepts import (
+    ShadeDBError,
+    URLEndpointMissingError, 
+    SNLMissingError, 
+    SNLContextMissingError,
+    ConnectionTokenMissingError,
+    ClusterTokenMissingError
+)
 
 try:
     db.snlQuery("fetch;id::int(23)")
 except TokenMissingError as e:
-    print(f"shadeDB error: {e}")
+    print(f"[shadeDB Security Alert]: Authentication failed -> {e}")
+except SNLMissingError as e:
+    print(f"[shadeDB Command Error]: Invalid SNL query string -> {e}")
+
 ```
-
----
-
-## Performance Philosophy
-
-Execution speed scales with simplicity. shadeDB removes unnecessary abstraction layers:
-- fewer allocations
-- faster parsing
-- deterministic execution
-- increased uptime availability
-
-Result: predictable, ultra-low latency at scale.
-
----
-
-## Use Cases
-
-- Autonomous AI agents  
-- Real-time ingestion pipelines  
-- High-frequency event systems  
-- Edge data layers  
-- Experimental database architectures
-
----
-
-## Requirements
-
-- Python 3.10+  
-- A running shadeDB instance ( remote )
-
----
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (git checkout -b feat/your-feature)
-3. Make changes, add tests
-4. Open a pull request and describe your changes
-
-Please follow the repository's code style and include tests where applicable.
-
----
-
-## Vision
-
-shadeDB represents a shift from human-centric data systems.  
-The future isn’t dashboards. The future is agents thinking and executing at lightning speed.
-
----
+##  Vision
+> The future of software isn't human-facing dashboards or verbose SQL query builders.
+> **The future is machine agents operating, reasoning, and transacting data at lightspeed.**
+> 
+shadeDB provides the raw execution layer necessary to power that transition.
+<p align="center">
+<i>Maintained by <a href="https://instagram.com/harkerbyte"><b>Harkerbyte</b></a>.
+</p>

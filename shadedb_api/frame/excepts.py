@@ -1,26 +1,46 @@
-class URLEndpointMissingError(Exception):
+"""
+shade_exceptions.py
+Custom exceptions for the ShadeDB API Client architecture.
+"""
+
+class ShadeDBError(Exception):
+    """Base exception for all ShadeDB specific errors."""
+    pass
+
+
+class URLEndpointMissingError(ShadeDBError):
     """Exception raised when the URL endpoint is missing."""
-    def __init__(self, source):
-        self.message = f"{source} missing endpoint url"
-        super().__init__(self.message)
+    def __init__(self, source: str):
+        super().__init__(f"[{source}] Missing database endpoint URL.")
 
-class TokenMissingError(Exception):
-    """Exception raised when the auth token is missing."""
-    def __init__(self, source):
-        self.message = f"{source} missing token"
-        super().__init__(self.message)
 
-class SNLMissingError(Exception):
-    """Exception raised when command is missing."""
-    def __init__(self, source):
-      self.message = f"command missing : {source}"
-      super().__init__(self.message)
+class ConnectionTokenMissingError(ShadeDBError):
+    """Exception raised when the main connection token is missing."""
+    def __init__(self, source: str):
+        super().__init__(f"[{source}] Missing connection token.")
+
+
+class ClusterTokenMissingError(ShadeDBError):
+    """Exception raised when the cluster/instance token is missing."""
+    def __init__(self, source: str):
+        super().__init__(f"[{source}] Missing cluster token.")
+
+
+class SNLMissingError(ShadeDBError):
+    """Exception raised when an SNL command is missing."""
+    def __init__(self, source: str):
+        super().__init__(f"[{source}] Command payload is missing.")
   
-class SNLContextMissingError(Exception):
-  """Exception raised when dict context is missing."""
-  def __init__(self, source):
-    self.message = f"missing dictionary context : {source}"
-    super().__init__(self.message)
+
+class SNLContextMissingError(ShadeDBError):
+    """Exception raised when the required dictionary context is missing."""
+    def __init__(self, source: str):
+        super().__init__(f"[{source}] Missing context dictionary.")
+
 
 if __name__ == "__main__":
-  pass
+    # Quick sanity check/demonstration
+    try:
+        raise SNLMissingError("ConsoleAPI")
+    except ShadeDBError as e:
+        print(f"Caught expected exception: {e}")

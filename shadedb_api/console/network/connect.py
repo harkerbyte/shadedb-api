@@ -1,174 +1,87 @@
-import requests,json
+import json
+import requests
+from urllib.parse import urlparse
 
-class shadeDB_cli:
-  def __init__(self, url:str = None, token:str = None):
-    self.url = url
-    self.token = token
-    self.db_name = None
-      
-  
-  def authenticator(self):
-    return {"dbToken" : self.token}
+class ShadeDBCli:
+    __slots__ = ("endpoint", "connection_token", "cluster_token", "database_id")
     
-  def remote_status_cli(self):
-    config = {"type" : "establish"}
-    config.update(self.authenticator())
-    try:
-      r = requests.post(self.url, json = config)
-      if r.status_code == 200:
-        self.db_name = r.json().get("dbName",None)
-        const = ""
-        for k,v in r.json().items():
-          if k == "Tier" or k == "Broadcast":
-            if v:
-              if  "Reference error" not in v:
-                const += f"{k} : {v}\n"
-              else:
-                const += f"{k} : {"Enter: 98"}\n"
-              
-        return const
-    
-      return f"[server ~ console]: Status code {r.status_code}"
-    except Exception as e:
-      return f"\x1b[1;31m{e}\x1b[1;0m"
-      
-  def general_cli(self, command:str = None):
-    if command:
-      config = { "type" : "string", "command" : command }
-      auth_token = self.authenticator()
-      config.update(auth_token)
-      
-      r = requests.post(self.url , json = config)
-      if r.status_code == 200:
-        return r.json()
-      
-      elif r.status_code == 400:
-        return r.json().get("message", "Status code [400]: message missing.")
-      
-      else:
-        return "Unexpected error"
+    def __init__(self, endpoint: str, connection_token: str, cluster_token: str = None):
+        self.endpoint = endpoint
+        self.connection_token = connection_token
+        self.cluster_token = cluster_token
         
-  
-  def context_manage_cli(self, command:str = None, context:str|dict = None):
-    if command and context:
+        # Robustly extract the last non-empty path component as database_id
+        parsed_url = urlparse(endpoint)
+        path_parts = [part for part in parsed_url.path.split("/") if part]
+        self.database_id = path_parts[-1] if path_parts else ""
+        
+    def _get_auth_payload(self) -> dict:
+        """Helper to generate base authentication payload."""
+        return {
+            "cntoken": self.connection_token, 
+            "dbid": self.database_id, 
+            "token": self.cluster_token
+        }
+
+    def _send_request(self, snl_command: str) -> dict | str:
+        """Centralized HTTP POST handler with robust JSON and HTTP error parsing."""
+        payload = {"SNL": snl_command}
+        payload.update(self._get_auth_payload())
+        
         try:
-          if not isinstance(context,(str,dict)):
-            return "context must be str/dict"
-          
-          if isinstance(context,str):
-            jsonString = context
-          else:
-            jsonString = json.dumps(context)
-        except json.JSONDecodeError as e:
-          raise e
-        finally:
-          auth_token = self.authenticator()
-          
-          config = { "type" :"string/context", "command" : command, "context" : jsonString }
-          config.update(auth_token)
-          
-          r = requests.post(self.url, json = config)
-          
-          if r.status_code == 200:
-            return r.json()
-          
-          elif r.status_code == 400:
-            return r.json().get("message", "Status code [400]: message missing.")
-          
-          else:
-            return False
-  
-  def db_name_change_cli(self,new_name:str=None):
-    config = {"type" : "nameChange", "name" : new_name}
-    config.update(self.authenticator())
-    
-    re = requests.post(self.url, json = config, timeout = 5)
-    if re.status_code == 200:
-      self.db_name = re.json().get("database name","Not specified")
-      return re.json()
-      
-    return f"[server ~ console]: Status code {re.status_code}"
-  
-  def db_stat_volume_cli(self):
-    config = {"type" : "volume"}
-    config.update(self.authenticator())
-    re = requests.post(self.url, json = config, timeout = 5)
-    if re.status_code:
-      re = re.json()
-      return f"{re.get("volume", "Unable to retrieve volume")}"
-    
-    return f"[server ~ console]: Status code {re.status_code}"
-  
-  def db_pagination_cli(self, paging:str=None):
-    try:
-      combp = int(paging)
-      config = {"type" : "pagination",  "pageSize" : combp}
-      config.update(self.authenticator())
-      
-      re = requests.post(self.url, json = config, timeout = 5)
-      if re.status_code == 200:
-        return f"[server ~ console]: {re.json()}"
+            response = requests.post(self.endpoint, json=payload, timeout=10)
+            
+            # Handle successful response
+            if response.status_code == 200:
+                try:
+                    return response.json()
+                except json.JSONDecodeError:
+                    return response.text
+            
+            # Handle client/forbidden errors
+            if response.status_code in (400, 403):
+                try:
+                    body = response.json()
+                    return body.get("message", f"Status code [{response.status_code}]: message missing. ")
+                except json.JSONDecodeError:
+                  return f"\x1b[1;31m[server ~ console]: status code {response.status_code}\x1b[1;0m"
+            
+            return f"\x1b[1;31mUnexpected server error: {response.status_code}\x1b[1;0m"
+            
+        except requests.exceptions.RequestException as e:
+            return f"\x1b[1;31m[Network Error]: {e}\x1b[1;0m"
+
+    def remote_status_cli(self) -> str | dict:
+        """Checks the remote connection status."""
+        result = self._send_request(snl_command="")
         
-      return f"[server ~ console]: Status code {re.status_code}"
-      
+        # If the server returned a valid dictionary and no error text string, it's active
+        if isinstance(result, dict):
+            return "\n\x1b[1;32m\nActive\n\x1b[1;0m\n        "
+        return result
         
-    except (TypeError,ValueError,Exception) as e:
-      return f"Console: error = {e}"
-  
-  def db_uniques_cli(self):
-    config = {"type" : "unique-get"}
-    config.update(self.authenticator())
-    re = requests.post(self.url, json = config, timeout = 5)
-    
-    if re.status_code == 200:
-      return f"[server ~ console]: {re.json()}"
-      
-    return f"[server ~ console]: Status code {re.status_code}"
-      
-  def db_unique_set_cli(self, new_l:str=None):
-    config = {"type" : "unique-set", "newUniques" : new_l}
-    config.update(self.authenticator())
-    
-    re = requests.post(self.url, json = config, timeout = 5)
-    if re.status_code == 200:
-      return re.json()
-      
-    return f"[server ~ console]: Status code {re.status_code}"
-  
-  def db_info_cli(self):
-    config = {"type" : "info"}
-    config.update(self.authenticator())
-    
-    re = requests.post(self.url, json = config, timeout = 5)
-    if re.status_code == 200:
-      redict = dict()
-      for k,v in re.json().items():
-        if "Use cache" not in k:
-          redict[k] = v
-      
-      return redict
-    return f"[server ~ console]: Status code {re.status_code}"
-  """
-  def db_cache_cli(self,set_to:str=None):
-    if set_to:
-      config = {"type" : "cache", "setCache" : set_to.lower()}
-      config.update(self.authenticator())
-      
-      re = requests.post(self.url, json = config, timeout = 5)
-      if re.status_code == 200:
-        return re.json()
+    def general_cli(self, command: str = None) -> dict | str:
+        """Executes a basic general SNL command."""
+        if not command:
+            return "\x1b[1;31mNo command provided.\x1b[1;0m"
+        return self._send_request(snl_command=command)
         
-      return f"[server ~ console]: Status code {re.status_code}"
-  """
-  def db_terminate_cli(self):
-    config = {"type" : "terminate"}
-    config.update(self.authenticator())
-    
-    re = requests.post(self.url, json = config)
-    if re.status_code == 200:
-      return re.json()
-      
-    return f"[server ~ console]: Status code {re.status_code}"
-    
+    def context_manage_cli(self, command: str = None, context: dict = None) -> dict | str:
+        """Executes a command embedded with stringified dictionary contexts."""
+        if not command or not context:
+            return "\x1b[1;31mMissing command or context validation.\x1b[1;0m"
+            
+        if isinstance(context, dict):
+            try:
+                context_str = json.dumps(context)
+            except (TypeError, ValueError) as e:
+                raise ValueError(f"Context dict is not JSON serializable: {e}")
+        else:
+            context_str = str(context)
+            
+        formatted_command = f"{command};{context_str};"
+        return self._send_request(snl_command=formatted_command)
+
+
 if __name__ == "__main__":
-  print("Oops, nah")
+    print("Oops, nah. Run this via your main console script.")
