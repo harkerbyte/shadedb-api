@@ -151,15 +151,16 @@ from shadedb_api.frame.sync import syncFrame
 db = syncFrame(
     endpoint="https://your_database_endpoint",
     connection_token="YOUR_CONNECTION_TOKEN",
+    cluster_token: str = YOUR_CLUSTER_TOKEN,
     inspection=False,
-    query_timeout=0.5
+    query_timeout=0.5 
 )
 
 ```
 ##  Basic Usage
 ### Insert Record
 ```python
-result = db.snlComplexQuery(
+result = db.snl_complex_query(
     command="Insert",
     context={"username": "shade", "age": 12}
 )
@@ -168,7 +169,7 @@ print(result)
 ```
 ### Full Overwrite
 ```python
-result = db.snlComplexQuery(
+result = db.snl_complex_query(
     command="Overwrite;id::int(1)",
     context={"username": "zeus", "age": 56, "email": "zeus@mail.com"}
 )
@@ -177,7 +178,7 @@ print(result)
 ```
 ### Direct String Query
 ```python
-result = db.snlQuery("Fetch;id::int(1)")
+result = db.snl_query("Fetch;id::int(1)")
 print(result)
 
 ```
@@ -283,7 +284,7 @@ from shadedb_api.frame.excepts import (
 )
 
 try:
-    db.snlQuery("fetch;id::int(23)")
+    db.snl_query("fetch;id::int(23)")
 except TokenMissingError as e:
     print(f"[shadeDB Security Alert]: Authentication failed -> {e}")
 except SNLMissingError as e:
